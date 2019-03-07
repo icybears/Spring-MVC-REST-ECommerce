@@ -30,6 +30,8 @@ public class Produit {
    @ManyToMany(mappedBy="produits")
    private Set<MatierePremiere> matieresPremieres = new HashSet<MatierePremiere>();
    
+ //  @OneToMany(mappedBy="pk.produit")
+//	private Set<LigneCommande> ligneCommandes = new HashSet<LigneCommande>();
    
    @ManyToOne
    @JoinColumn(name="id_cooperative")
@@ -39,7 +41,6 @@ public class Produit {
 public Produit() {
 	super();
 }
-
 
 public Produit(String nom, double prix) {
 	super();

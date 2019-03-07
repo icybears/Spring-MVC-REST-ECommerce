@@ -1,12 +1,14 @@
 package ma.pfa.webapp.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable
 
-public class IdLigneCommande {
+public class IdLigneCommande implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="id_produit")
 	private Produit produit;

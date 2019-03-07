@@ -1,12 +1,8 @@
 
 package ma.pfa.webapp.model;
 
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
@@ -24,9 +20,9 @@ public class LigneCommande {
 	
 	private int quantite;
 
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name = "id_produit")
-	private Produit produit;
+	private Produit produit;*/
 
 	@ManyToOne
 	@JoinColumn(name = "id_avoir")
@@ -36,9 +32,9 @@ public class LigneCommande {
 	private Panier panier;
 
 
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name="id_commandeClient")
-	private CommandeClient commandeClient;
+	private CommandeClient commandeClient;*/
 
 
 	@ManyToOne
@@ -50,21 +46,8 @@ public class LigneCommande {
 		super();
 	}
 
-
-	public LigneCommande(int quantite, Produit produit) {
-		super();
-		this.quantite = quantite;
-		this.produit = produit;
-	}
-
-
 	public Avoir getAvoir() {
 		return avoir;
-	}
-
-
-	public CommandeClient getCommandeClient() {
-		return commandeClient;
 	}
 
 
@@ -73,19 +56,10 @@ public class LigneCommande {
 	}
 
 
-
-
-
 	public Panier getPanier() {
 		return panier;
 	}
-
-
-	public Produit getProduit() {
-		return produit;
-	}
-
-
+	
 	public int getQuantite() {
 		return quantite;
 	}
@@ -96,29 +70,34 @@ public class LigneCommande {
 	}
 
 
-	public void setCommandeClient(CommandeClient commandeClient) {
-		this.commandeClient = commandeClient;
-	}
-
-
 	public void setCommandeCooperative(CommandeCooperative commandeCooperative) {
 		this.commandeCooperative = commandeCooperative;
 	}
 
 
-
-
-
 	public void setPanier(Panier panier) {
 		this.panier = panier;
 	}
-    
-	public void setProduit(Produit produit) {
-		this.produit = produit;
-	}
-	
 
 	public void setQuantite(int quantite) {
 		this.quantite = quantite;
+	}
+	
+	@Transient
+	public Produit getProduit(){
+		return pk.getProduit();
+	}
+	
+	@Transient
+	public CommandeClient getCommandeClient(){
+		return pk.getCommandeClient();
+	}
+	
+	public void setProduit(Produit produit){
+		pk.setProduit(produit);
+	}
+	
+	public void setCommande(CommandeClient commandeClient) {
+		pk.setCommandeClient(commandeClient);
 	}
 }

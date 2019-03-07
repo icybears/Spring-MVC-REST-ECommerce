@@ -1,7 +1,6 @@
 package ma.pfa.webapp.model;
 
 
-import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +26,7 @@ public class FactureClient {
 	
 	
 	// AVOIR
+	
    
 
 }
