@@ -2,6 +2,7 @@
 package ma.pfa.webapp.model;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,10 +13,15 @@ import javax.persistence.Transient;
 
 @Entity
 public class LigneCommande {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_ligneCommande")
-	private int id;
+	
+	@EmbeddedId
+	private IdLigneCommande pk;
+	
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Column(name = "id_ligneCommande")
+//	private int id;
+	
 	private int quantite;
 
 	@ManyToOne
@@ -67,9 +73,7 @@ public class LigneCommande {
 	}
 
 
-	public int getId() {
-		return id;
-	}
+
 
 
 	public Panier getPanier() {
@@ -102,9 +106,7 @@ public class LigneCommande {
 	}
 
 
-	public void setId(int id) {
-		this.id = id;
-	}
+
 
 
 	public void setPanier(Panier panier) {
