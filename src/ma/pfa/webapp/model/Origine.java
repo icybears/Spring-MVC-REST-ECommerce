@@ -16,8 +16,8 @@ public class Origine {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_origine")
    private int id;
-   private int nom;
-   private int description;
+   private String nom;
+   private String description;
    
    @OneToMany(mappedBy="origine")
   private Set<MatierePremiere> matierePremieres=new HashSet<>();
@@ -36,7 +36,7 @@ public Origine() {
  * @param description
  * @param matierePremieres
  */
-public Origine(int nom, int description, Set<MatierePremiere> matierePremieres) {
+public Origine(String nom, String description, Set<MatierePremiere> matierePremieres) {
 	super();
 	this.nom = nom;
 	this.description = description;
@@ -53,19 +53,19 @@ public void setId(int id) {
 	this.id = id;
 }
 
-public int getNom() {
+public String getNom() {
 	return nom;
 }
 
-public void setNom(int nom) {
+public void setNom(String nom) {
 	this.nom = nom;
 }
 
-public int getDescription() {
+public String getDescription() {
 	return description;
 }
 
-public void setDescription(int description) {
+public void setDescription(String description) {
 	this.description = description;
 }
 
