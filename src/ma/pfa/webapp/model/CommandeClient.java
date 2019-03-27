@@ -26,22 +26,37 @@ public class CommandeClient implements Serializable{
 
 	private Date dateCreation;
 
-	private double total;
-	
+
 	@ManyToOne
 	@JoinColumn(name="id_client")
 	private Client client ;
-	
+
 	@ManyToOne
 	@JoinColumn(name="id_etat")
 	private Etat etat;
-	
+
 	@ManyToOne
 	@JoinColumn(name="id_factureClient")
 	private FactureClient factureClient;
-	
+
 	@OneToMany(mappedBy="pk.commandeClient",fetch=FetchType.LAZY)
 	private Set<LigneCommande> ligneCommandes = new HashSet<LigneCommande>();
+	
+	public Client getClient() {
+		return client;
+	}
+	
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+	
+	public void setClient(Client client) {
+		this.client = client;
+	}
+	
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
 	
 	
 	

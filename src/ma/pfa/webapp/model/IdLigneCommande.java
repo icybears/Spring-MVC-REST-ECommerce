@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 @Embeddable
 
 public class IdLigneCommande implements Serializable{
+	
 	@ManyToOne
 	@JoinColumn(name="id_produit")
 	private Produit produit;

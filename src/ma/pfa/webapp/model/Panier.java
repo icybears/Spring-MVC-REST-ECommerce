@@ -3,35 +3,50 @@ package ma.pfa.webapp.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import ma.pfa.webapp.model.LigneCommande;
+import ma.pfa.webapp.model.Produit;
+
 public class Panier {
-
-	private Map<Integer, LigneCommande> items;
 	
-	public Panier() {
-		items = new HashMap<Integer, LigneCommande>();
-	}
-
+	public Map<Integer,LigneCommande> items = new HashMap<Integer,LigneCommande>();
 	
-	public void addItems(Produit produit, int qte) {
+	public void addItem(Produit produit, int quantite)
+	{
 		LigneCommande lc = items.get(produit.getId());
 		
-		if(lc == null) {
+		if(lc==null){
 			lc = new LigneCommande();
 			lc.setProduit(produit);
-			lc.setQuantite(qte);
+			lc.setQuantite(quantite);
 			items.put(produit.getId(), lc);
-			
-		} else {
-			lc.setQuantite(lc.getQuantite() + qte);
 		}
-
+		
+		else
+			lc.setQuantite(lc.getQuantite() + quantite);
 	}
 	
-	public void removeItem(int idProduit) {
-		if(items.containsKey(idProduit))
-			items.remove(idProduit);
+	
+	public void removeItem(int idProduit)
+	{
+		items.remove(idProduit);
+	}
+	
+	public void editQuantiteByProductId(int idProduit, int quantite){
+		
+		LigneCommande lc = items.get(idProduit);
+		
+		if(lc != null)
+			lc.setQuantite(quantite);
 	}
 
+	public Produit findProduitById(int id) {
+		return this.findLigneCommandeByProductId(id).getProduit();
+	}
+	
+	public LigneCommande findLigneCommandeByProductId(int id) {
+		return items.get(id);
+	}
+	
 	public Map<Integer, LigneCommande> getItems() {
 		return items;
 	}
@@ -39,7 +54,5 @@ public class Panier {
 	public void setItems(Map<Integer, LigneCommande> items) {
 		this.items = items;
 	}
-  
 	
-
 }
