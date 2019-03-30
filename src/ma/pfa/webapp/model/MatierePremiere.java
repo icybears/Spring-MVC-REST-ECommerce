@@ -23,7 +23,7 @@ public class MatierePremiere {
 	private String description;
 
 	@ManyToMany
-	@JoinTable(name="produit_matiere", joinColumns=@JoinColumn(name="id_mateirePremiere"),
+	@JoinTable(name="produit_matiere", joinColumns=@JoinColumn(name="id_matierePremiere"),
 	inverseJoinColumns=@JoinColumn(name="id_produit"))
 	private Set<Produit> produits = new HashSet<Produit>();
 	

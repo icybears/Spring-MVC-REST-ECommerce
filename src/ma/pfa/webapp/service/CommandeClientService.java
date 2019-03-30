@@ -48,15 +48,15 @@ public class CommandeClientService implements ICommandeClientService{
 			Set<LigneCommande> ligneCommandes = new HashSet<LigneCommande>(
 					panier.getItems().values());
 			
-			commande.setLigneCommandes(ligneCommandes);
-			commandeDao.create(commande);
-			
-			for(LigneCommande lc : ligneCommandes)
-			{
-				lc.setCommande(commande);
-				ligneCommandeDao.create(lc);
-				
-			}
+//			commande.setLigneCommandes(ligneCommandes);
+//			commandeDao.create(commande);
+//			
+//			for(LigneCommande lc : ligneCommandes)
+//			{
+//				lc.setCommande(commande);
+//				ligneCommandeDao.create(lc);
+//				
+//			}
 			
 		}
 

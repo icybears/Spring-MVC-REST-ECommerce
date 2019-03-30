@@ -12,23 +12,27 @@
                            http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-3.2.xsd ">
-	<context:component-scan	base-package="ma.pfa.webapp"/>
+	<context:component-scan
+		base-package="ma.pfa.webapp" />
 	<mvc:annotation-driven />
-	
+
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/Views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
 		<property name="driverClass" value="com.mysql.cj.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/pfa?useSSL=false&amp;serverTimezone=UTC" />
+		<property name="jdbcUrl"
+			value="jdbc:mysql://localhost:3306/pfa?useSSL=false&amp;serverTimezone=UTC" />
 		<property name="user" value="pfauser" />
 		<property name="password" value="pfauser" />
 	</bean>
 
-	<bean id="sessionFactory"
+	<bean id="sessFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="ma.pfa.webapp" />
@@ -36,14 +40,17 @@
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 	</bean>
-	
-	<bean id="myTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"/>
+
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessFactory" />
 	</bean>
-	
-	<tx:annotation-driven transaction-manager="myTransactionManager"/>
+	<tx:annotation-driven
+		transaction-manager="txManager" />
+
+
 </beans>  

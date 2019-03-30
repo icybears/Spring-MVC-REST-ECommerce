@@ -21,42 +21,43 @@ public class CrudGenericDaoImpl<T> implements ICrudGenericDao<T> {
 //	public void setType( Class<T> type ) {
 //		this.type = type;
 //	}
-	
-	public CrudGenericDaoImpl(){
+
+	public CrudGenericDaoImpl() {
 		this.type = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 	@Override
 	public int save(T instance) {
-		return (Integer)getCurrentSession().save(instance);
+		return (Integer) getCurrentSession().save(instance);
 	}
 
 	@Override
 	public T findById(int id) {
-		return (T)getCurrentSession().get(type, id);
+		return (T) getCurrentSession().get(type, id);
 	}
 
 	@Override
-	public void update(T instance) {
-
-		getCurrentSession().update(instance);
+	public T update(T instance) {
+		T inst;
+		inst = (T) getCurrentSession().merge(instance);
+		getCurrentSession().flush();
+		return inst;
 	}
 
 	@Override
 	public void delete(T instance) {
 		getCurrentSession().delete(instance);
+		getCurrentSession().flush();
 
 	}
-	
-	
+
 	@Override
 	public List<T> findAll() {
-		
-		
-		return getCurrentSession().createQuery("FROM "+type.getSimpleName(),type).getResultList();
+
+		return getCurrentSession().createQuery("FROM " + type.getSimpleName(), type).getResultList();
 	}
 
 	protected final Session getCurrentSession() {
-	      return sessionFactory.getCurrentSession();
+		return sessionFactory.getCurrentSession();
 	}
 }

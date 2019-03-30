@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import ma.pfa.webapp.model.Client;

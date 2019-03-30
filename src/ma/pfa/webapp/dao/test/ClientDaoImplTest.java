@@ -1,6 +1,9 @@
 package ma.pfa.webapp.dao.test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+
+
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -13,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath*:**/appContextTest.xml" })
-@Transactional
+
 class ClientDaoImplTest {
 
 
@@ -22,8 +25,9 @@ class ClientDaoImplTest {
 
 
 	@Test
+	@Transactional
 	@Rollback(true)
-	void test() {
+	public void testMethod() {
 		Client cl = new Client();
 		Client cl2 = new Client();
 		cl.setNom("Client 1");

@@ -8,7 +8,7 @@ public interface ICrudGenericDao<T> {
 		
 		T findById(int id);
 		
-		void update(T instance);
+		T update(T instance);
 		
 		void delete(T instance);
 		
