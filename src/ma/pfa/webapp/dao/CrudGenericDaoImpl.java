@@ -38,17 +38,12 @@ public class CrudGenericDaoImpl<T> implements ICrudGenericDao<T> {
 
 	@Override
 	public T update(T instance) {
-		T inst;
-		inst = (T) getCurrentSession().merge(instance);
-		getCurrentSession().flush();
-		return inst;
+		return (T) getCurrentSession().merge(instance);
 	}
 
 	@Override
 	public void delete(T instance) {
 		getCurrentSession().delete(instance);
-		getCurrentSession().flush();
-
 	}
 
 	@Override
