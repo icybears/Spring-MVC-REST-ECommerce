@@ -28,7 +28,7 @@ public class CrudGenericDaoImpl<T> implements ICrudGenericDao<T> {
 
 	@Override
 	public int save(T instance) {
-		return (Integer) getCurrentSession().save(instance);
+		 return (Integer) getCurrentSession().save(instance);
 	}
 
 	@Override
