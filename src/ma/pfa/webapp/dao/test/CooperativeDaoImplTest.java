@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,22 +21,32 @@ class CooperativeDaoImplTest {
 	private ICooperativeDao coopDao;
 	
 	static Cooperative coop;
-	static Cooperative coop2;
+	
 	@Test
-	void testSaveandFindAll() {
+	void testSaveAndFindAll() {
 		coop = new Cooperative(); 
 		coop.setDescription("Cooperative 1");
-		coop2 = new Cooperative(); 
-		coop2.setDescription("Cooperative 2");
-		
 		coopDao.save(coop);
-		coopDao.save(coop2);
+		coop = new Cooperative(); 
+		coop.setDescription("Cooperative 2");
+		coopDao.save(coop);
 		
 		assertEquals(2,coopDao.findAll().size());
 	}
 	
 	@Test
-	void testUpdate() {
+	void testFindByIdAndUpdate() {
+		coop = new Cooperative(); 
+		coop.setDescription("Cooperative 1");
+		int id = coopDao.save(coop);
+		
+		assertNotNull(coopDao.findById(id));
+		
+		Cooperative coopEntity = coopDao.findById(id);
+		coopEntity.setDescription("Updated Cooperative");
+		coopEntity = coopDao.update(coopEntity);
+		
+		assertEquals("Updated Cooperative",coopEntity.getDescription());
 		
 	}
 

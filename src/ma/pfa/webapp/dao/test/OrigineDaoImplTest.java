@@ -3,26 +3,18 @@ package ma.pfa.webapp.dao.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import ma.pfa.webapp.dao.IOrigineDao;
 import ma.pfa.webapp.model.Origine;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath*:**/appContextTest.xml" })
-@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.READ_UNCOMMITTED)
+@Transactional
 class OrigineDaoImplTest {
 	
 	@Autowired
@@ -32,8 +24,7 @@ class OrigineDaoImplTest {
 	
 	
 	@Test
-	@Rollback(true)
-	public void testSaveOrigine() {
+	public void testSave() {
 		
 		Origine org = new Origine();
 		org.setNom("Test Origine");
@@ -47,10 +38,14 @@ class OrigineDaoImplTest {
 	}
 	
 	@Test
-	@Rollback(true)
-	public void testUpdateOrigine() {
+	public void testUpdate() {
 		
-		int id = origineEntity.getId();
+		Origine org = new Origine();
+		org.setNom("Test Origine");
+		
+		int id = origineDao.save(org);
+		
+		origineEntity = origineDao.findById(id);
 		
 		origineEntity.setNom("Updated Test Origine");
 		
@@ -60,10 +55,14 @@ class OrigineDaoImplTest {
 	}
 	
 	@Test
-	@Rollback(true)
-	public void testDeleteOrigine() {
+	public void testDelete() {
 		
-		int id = origineEntity.getId();
+		Origine org = new Origine();
+		org.setNom("Test Origine");
+		
+		int id = origineDao.save(org);
+		
+		origineEntity = origineDao.findById(id);
 		
 		origineDao.delete(origineEntity);
 		
@@ -71,12 +70,20 @@ class OrigineDaoImplTest {
 	}
 	
 
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
+	@Test
+	public void testFindAll() {
+		Origine org = new Origine();
+		org.setNom("Test Origine 1");
+		origineDao.save(org);
+		org = new Origine();
+		org.setNom("Test Origine 2");
+		origineDao.save(org);
+		org = new Origine();
+		org.setNom("Test Origine 3");
+		origineDao.save(org);
+		
+		assertEquals(3,origineDao.findAll().size());
+		
 	}
 
 }

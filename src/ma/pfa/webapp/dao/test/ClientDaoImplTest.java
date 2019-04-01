@@ -33,12 +33,11 @@ class ClientDaoImplTest {
 		cl2 = new Client();
 		cl.setNom("Client 1");
 		cl2.setNom("Client 2");
-		System.out.println("before class");
 	}
 
 	@Test
 	public void testSaveAndFindAll() {
-		System.out.println("fired  test");
+		
 		clientDao.save(cl);
 		clientDao.save(cl2);
 		assertEquals(2, clientDao.findAll().size());
