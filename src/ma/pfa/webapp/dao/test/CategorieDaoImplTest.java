@@ -30,9 +30,6 @@ class CategorieDaoImplTest {
 	@Autowired
 	private IProduitDao prodDao;
 	
-	@Autowired
-	private SessionFactory sessFactory;
-	
 	@Test
 	@Disabled
 	void testSave() throws Exception{

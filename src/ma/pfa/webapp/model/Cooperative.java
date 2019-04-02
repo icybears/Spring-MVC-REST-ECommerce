@@ -14,7 +14,6 @@ public class Cooperative {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_cooperative")
-
 	private int id;
 
 	private String nom;

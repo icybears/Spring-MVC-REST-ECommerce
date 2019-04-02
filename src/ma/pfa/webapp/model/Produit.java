@@ -36,7 +36,7 @@ public class Produit {
 
 	@ManyToOne
 	@JoinColumn(name = "id_cooperative")
-	Cooperative cooperative;
+	private Cooperative cooperative;
 
 	public Produit() {
 		super();
