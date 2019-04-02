@@ -17,6 +17,8 @@ public class Cooperative {
 
 	private int id;
 
+	private String nom;
+	
 	private String responsable;
 
 	private String adresse;
@@ -34,7 +36,12 @@ public class Cooperative {
 		super();
 	}
 
-	public Cooperative(String responsable, String description) {
+	public Cooperative(String nom) {
+		super();
+		this.setNom(nom);
+	}
+	
+	public Cooperative(String nom,String responsable, String description) {
 		super();
 		this.responsable = responsable;
 		this.description = description;
@@ -94,5 +101,13 @@ public class Cooperative {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 }

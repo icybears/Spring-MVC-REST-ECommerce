@@ -36,6 +36,12 @@ public class MatierePremiere {
 		super();
 	}
 
+	public MatierePremiere(String nom) {
+		super();
+		this.nom = nom;
+
+	}
+	
 	public MatierePremiere(String nom, String description, Origine origine) {
 		super();
 		this.nom = nom;
