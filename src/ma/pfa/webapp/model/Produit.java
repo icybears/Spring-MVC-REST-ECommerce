@@ -24,14 +24,14 @@ public class Produit {
 	private String description;
 	private double prix;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_categorie")
 	private Categorie categorie;
 
 	@ManyToMany(mappedBy = "produits")
 	private Set<MatierePremiere> matieresPremieres = new HashSet<MatierePremiere>();
 
-	// @OneToMany(mappedBy="pk.produit")
+//	 @OneToMany(mappedBy="pk.produit")
 //	private Set<LigneCommande> ligneCommandes = new HashSet<LigneCommande>();
 
 	@ManyToOne
@@ -104,15 +104,15 @@ public class Produit {
 		this.prix = prix;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		Produit prod = (Produit) o;
-		return getId() == prod.getId();
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getId());
-	}
+//	@Override
+//	public boolean equals(Object o) {
+//		Produit prod = (Produit) o;
+//		return getId() == prod.getId();
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(getId());
+//	}
 
 }

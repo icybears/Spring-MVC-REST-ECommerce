@@ -105,5 +105,10 @@ class ProduitDaoImplTest {
 		assertEquals(2,prodEntity.getMatieresPremieres().size());
 		
 	}
+	
+	@Test
+	void testGetCategory() {
+		Produit prod = new Produit("P1",100);
+	}
 
 }

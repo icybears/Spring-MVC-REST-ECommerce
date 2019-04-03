@@ -20,5 +20,16 @@ public class CooperativeDaoImpl extends CrudGenericDaoImpl<Cooperative> implemen
 		return new HashSet<Produit>(session.createQuery(query).setParameter("id_coop", id).getResultList());
 		
 	}
+	
+	
+//	public void delete(Cooperative coop) {
+//		Session session = this.getCurrentSession();
+//		String query = "DELETE FROM Produit p WHERE p.cooperative.id = :id_coop";
+//		
+//		session.createQuery(query).setParameter("id_coop", coop.getId()).executeUpdate();
+//		
+//		session.delete(coop);
+//		
+//	}
 
 }

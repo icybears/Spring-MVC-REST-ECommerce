@@ -28,7 +28,7 @@ public class Categorie {
 
 	private String description;
 
-	@OneToMany(mappedBy = "categorie", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "categorie", fetch = FetchType.EAGER)
 	private Set<Produit> produits = new HashSet<Produit>();
 	
 
@@ -43,15 +43,15 @@ public class Categorie {
 		this.produits = produits;
 	}
 
-	public void addProduit(Produit prod) {
-        produits.add(prod);
-        prod.setCategorie(this);
-    }
- 
-	public void removeProduit(Produit prod) {
-        produits.remove(prod);
-        prod.setCategorie(null);
-    }
+//	public void addProduit(Produit prod) {
+//        produits.add(prod);
+//        prod.setCategorie(this);
+//    }
+// 
+//	public void removeProduit(Produit prod) {
+//        produits.remove(prod);
+//        prod.setCategorie(null);
+//    }
 	
 	public int getId() {
 		return id;

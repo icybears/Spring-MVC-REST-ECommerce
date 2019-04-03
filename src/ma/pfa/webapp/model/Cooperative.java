@@ -1,13 +1,23 @@
 package ma.pfa.webapp.model;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+
+
+
+
+
+
 
 @Entity
 public class Cooperative {
@@ -28,7 +38,12 @@ public class Cooperative {
 
 	private String description;
 
-	@OneToMany(mappedBy = "cooperative")
+	
+//	@OneToMany(mappedBy = "cooperative",cascade = javax.persistence.CascadeType.REMOVE,
+//	        orphanRemoval = true)
+	
+	@OneToMany(mappedBy = "cooperative",cascade = CascadeType.ALL,
+    orphanRemoval = true)
 	private Set<Produit> produits = new HashSet<Produit>();
 
 	public Cooperative() {
@@ -45,6 +60,16 @@ public class Cooperative {
 		this.responsable = responsable;
 		this.description = description;
 	}
+	
+	public void addProduit(Produit prod) {
+        produits.add(prod);
+        prod.setCooperative(this);
+    }
+	
+	public void removeProduit(Produit prod) {
+        produits.remove(prod);
+        prod.setCooperative(null);
+    }
 
 	public String getAdresse() {
 		return adresse;
