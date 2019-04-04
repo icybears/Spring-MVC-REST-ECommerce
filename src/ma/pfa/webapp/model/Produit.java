@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -28,7 +30,14 @@ public class Produit {
 	@JoinColumn(name = "id_categorie")
 	private Categorie categorie;
 
-	@ManyToMany(mappedBy = "produits")
+//	@ManyToMany(mappedBy = "produits")
+	@ManyToMany(cascade = {
+	        CascadeType.PERSIST,
+	        CascadeType.MERGE
+	    })
+	@JoinTable(name="produit_matiere", 
+	joinColumns = @JoinColumn(name="id_produit"),
+	inverseJoinColumns = @JoinColumn(name="id_matierePremiere"))
 	private Set<MatierePremiere> matieresPremieres = new HashSet<MatierePremiere>();
 
 //	 @OneToMany(mappedBy="pk.produit")
@@ -48,6 +57,15 @@ public class Produit {
 		this.prix = prix;
 	}
 
+	public void addMatierePremiere(MatierePremiere mp) {
+		matieresPremieres.add(mp);
+		mp.getProduits().add(this);
+	}
+	
+	public void removeMatierePremiere(MatierePremiere mp) {
+		matieresPremieres.remove(mp);
+		mp.getProduits().remove(this);
+	}
 	public Categorie getCategorie() {
 		return categorie;
 	}

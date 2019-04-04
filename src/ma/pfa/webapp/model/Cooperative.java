@@ -1,12 +1,12 @@
 package ma.pfa.webapp.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,7 +44,7 @@ public class Cooperative {
 	
 	@OneToMany(mappedBy = "cooperative",cascade = CascadeType.ALL,
     orphanRemoval = true)
-	private Set<Produit> produits = new HashSet<Produit>();
+	private List<Produit> produits = new ArrayList<Produit>();
 
 	public Cooperative() {
 		super();
@@ -87,7 +87,7 @@ public class Cooperative {
 		return id;
 	}
 
-	public Set<Produit> getProduits() {
+	public List<Produit> getProduits() {
 		return produits;
 	}
 
@@ -115,7 +115,7 @@ public class Cooperative {
 		this.id = id;
 	}
 
-	public void setProduits(Set<Produit> produits) {
+	public void setProduits(List<Produit> produits) {
 		this.produits = produits;
 	}
 

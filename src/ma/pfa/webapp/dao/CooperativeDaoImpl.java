@@ -22,14 +22,6 @@ public class CooperativeDaoImpl extends CrudGenericDaoImpl<Cooperative> implemen
 	}
 	
 	
-//	public void delete(Cooperative coop) {
-//		Session session = this.getCurrentSession();
-//		String query = "DELETE FROM Produit p WHERE p.cooperative.id = :id_coop";
-//		
-//		session.createQuery(query).setParameter("id_coop", coop.getId()).executeUpdate();
-//		
-//		session.delete(coop);
-//		
-//	}
+
 
 }

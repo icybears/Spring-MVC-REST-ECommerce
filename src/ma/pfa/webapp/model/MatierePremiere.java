@@ -3,6 +3,7 @@ package ma.pfa.webapp.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+
+
 @Entity
 public class MatierePremiere {
 	@Id
@@ -22,10 +25,16 @@ public class MatierePremiere {
 	private String nom;
 	private String description;
 
-	@ManyToMany
-	@JoinTable(name="produit_matiere", joinColumns=@JoinColumn(name="id_matierePremiere"),
-	inverseJoinColumns=@JoinColumn(name="id_produit"))
+//	@ManyToMany(cascade = {
+//	        CascadeType.PERSIST,
+//	        CascadeType.MERGE
+//	    })
+//	@JoinTable(name="produit_matiere", 
+//	joinColumns = @JoinColumn(name="id_matierePremiere"),
+//	inverseJoinColumns = @JoinColumn(name="id_produit"))
+	@ManyToMany(mappedBy = "matieresPremieres")
 	private Set<Produit> produits = new HashSet<Produit>();
+	
 	
 	@ManyToOne
 	@JoinColumn(name="id_origine")
@@ -48,6 +57,14 @@ public class MatierePremiere {
 		this.description = description;
 		this.origine = origine;
 		
+	}
+
+	public Set<Produit> getProduits() {
+		return produits;
+	}
+
+	public void setProduits(Set<Produit> produits) {
+		this.produits = produits;
 	}
 
 	public String getDescription() {
