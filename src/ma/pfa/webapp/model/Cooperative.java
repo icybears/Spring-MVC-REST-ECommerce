@@ -7,10 +7,13 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -43,7 +46,8 @@ public class Cooperative {
 //	        orphanRemoval = true)
 	
 	@OneToMany(mappedBy = "cooperative",cascade = CascadeType.ALL,
-    orphanRemoval = true)
+    orphanRemoval = true, fetch=FetchType.LAZY)
+	@JsonIgnore //dont serialize this for the JSON response!
 	private List<Produit> produits = new ArrayList<Produit>();
 
 	public Cooperative() {

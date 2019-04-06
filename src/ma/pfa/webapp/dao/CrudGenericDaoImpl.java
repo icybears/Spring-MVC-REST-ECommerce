@@ -3,6 +3,7 @@ package ma.pfa.webapp.dao;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,10 @@ public class CrudGenericDaoImpl<T> implements ICrudGenericDao<T> {
 	}
 
 	protected final Session getCurrentSession() {
-		return sessionFactory.getCurrentSession();
+		
+			return sessionFactory.getCurrentSession();
+		
+		    
+	
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import ma.pfa.webapp.model.Cooperative;
 import ma.pfa.webapp.model.Produit;

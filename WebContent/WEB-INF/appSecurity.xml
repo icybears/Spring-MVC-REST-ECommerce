@@ -9,30 +9,29 @@
                            http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/login"
-			access="permitAll" />
-		<intercept-url pattern="/admin/*"
+		<csrf disabled="true" />
+		<intercept-url pattern="/login" access="permitAll" />
+
+		<intercept-url pattern="/secret*"
 			access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/admin/**"
-			access="hasRole('ROLE_ADMIN')" />
-		
+
+
 		<!-- <http-basic/> -->
 		<form-login login-page="/login"
 			authentication-failure-url="/login?error=true"
-			username-parameter="userName" 
-			password-parameter="password"
-			default-target-url="/" />
+			username-parameter="userName" password-parameter="password"
+			default-target-url="/index" />
+
 	</http>
 
 	<authentication-manager>
 		<authentication-provider>
-			<password-encoder hash="md5"/>
-			<jdbc-user-service data-source-ref="dataSource" 
+			<password-encoder hash="md5" />
+			<jdbc-user-service data-source-ref="dataSource"
 				users-by-username-query="SELECT userName, password, 'true' as enabled FROM user WHERE userName= ?"
-				
+
 				authorities-by-username-query="SELECT user.userName, user_role.role as authorities FROM user, user_role
-				WHERE user.userName = ? AND user.id = user_role.user_id "
-			/>
+				WHERE user.userName = ? AND user.id = user_role.user_id " />
 		</authentication-provider>
 	</authentication-manager>
 </beans:beans>

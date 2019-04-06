@@ -25,7 +25,7 @@ public class AdminController {
 		return "admin/adminLogin";
 	}
 	
-	@RequestMapping("/")
+	@RequestMapping("/index")
 	public String index(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String userName = auth.getName();
