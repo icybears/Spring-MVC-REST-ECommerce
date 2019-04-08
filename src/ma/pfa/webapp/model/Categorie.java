@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Categorie {
 	@Id
@@ -28,7 +30,8 @@ public class Categorie {
 
 	private String description;
 
-	@OneToMany(mappedBy = "categorie", fetch = FetchType.EAGER)
+	@JsonIgnore //dont serialize this for the JSON response!
+	@OneToMany(mappedBy = "categorie", fetch = FetchType.LAZY)
 	private Set<Produit> produits = new HashSet<Produit>();
 	
 

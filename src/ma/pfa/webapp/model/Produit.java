@@ -16,6 +16,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Produit {
 	@Id
@@ -38,11 +41,13 @@ public class Produit {
 	@JoinTable(name="produit_matiere", 
 	joinColumns = @JoinColumn(name="id_produit"),
 	inverseJoinColumns = @JoinColumn(name="id_matierePremiere"))
+	@JsonIgnore
 	private Set<MatierePremiere> matieresPremieres = new HashSet<MatierePremiere>();
 
 //	 @OneToMany(mappedBy="pk.produit")
 //	private Set<LigneCommande> ligneCommandes = new HashSet<LigneCommande>();
 
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "id_cooperative")
 	private Cooperative cooperative;

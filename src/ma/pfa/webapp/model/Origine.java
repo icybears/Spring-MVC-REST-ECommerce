@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Origine {
 	@Id
@@ -19,14 +21,13 @@ public class Origine {
    private String nom;
    private String description;
    
+   @JsonIgnore
    @OneToMany(mappedBy="origine")
   private Set<MatierePremiere> matierePremieres=new HashSet<>();
    
  //Constructors
 
-/**
- * 
- */
+
 public Origine() {
 	super();
 }

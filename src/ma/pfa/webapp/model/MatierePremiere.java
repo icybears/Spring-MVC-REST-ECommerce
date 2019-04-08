@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity
@@ -32,6 +34,7 @@ public class MatierePremiere {
 //	@JoinTable(name="produit_matiere", 
 //	joinColumns = @JoinColumn(name="id_matierePremiere"),
 //	inverseJoinColumns = @JoinColumn(name="id_produit"))
+	@JsonIgnore
 	@ManyToMany(mappedBy = "matieresPremieres")
 	private Set<Produit> produits = new HashSet<Produit>();
 	

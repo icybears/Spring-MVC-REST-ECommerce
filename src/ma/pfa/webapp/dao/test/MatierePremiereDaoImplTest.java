@@ -1,14 +1,18 @@
 package ma.pfa.webapp.dao.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
 import ma.pfa.webapp.dao.IMatierePremiereDao;
 import ma.pfa.webapp.dao.IOrigineDao;
 import ma.pfa.webapp.model.MatierePremiere;
@@ -115,8 +119,8 @@ class MatierePremiereDaoImplTest {
 
 		assertEquals(2, mpDao.findAll().size());
 	}
-	
-	
+
+
 	
 
 	@AfterAll
