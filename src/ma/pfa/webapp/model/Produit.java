@@ -29,6 +29,7 @@ public class Produit {
 	private String description;
 	private double prix;
 
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "id_categorie")
 	private Categorie categorie;
