@@ -8,5 +8,5 @@ import ma.pfa.webapp.model.LigneCommande;
 public interface ICommandeClientDao extends ICrudGenericDao<CommandeClient>{
 	
 	Set<LigneCommande> getLigneCommandes(int idCommande);
-	
+	Set<CommandeClient> getCommandeClientByEtat(int idEtat);
 }

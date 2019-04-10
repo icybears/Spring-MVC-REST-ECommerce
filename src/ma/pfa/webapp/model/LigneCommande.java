@@ -7,36 +7,30 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class LigneCommande {
 
 	@EmbeddedId
+	@JsonIgnore
 	private IdLigneCommande pk;
-
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Column(name = "id_ligneCommande")
-//	private int id;
 
 	private int quantite;
 
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name = "id_produit") private Produit produit;
-	 */
 
 	@ManyToOne
 	@JoinColumn(name = "id_avoir")
 	private Avoir avoir;
 
 	@Transient
+	@JsonIgnore
 	private Panier panier;
 
 	/*
 	 * @ManyToOne
 	 * 
-	 * @JoinColumn(name="id_commandeClient") private CommandeClient commandeClient;
+	 * @JoinColumn(name = "id_produit") private Produit produit;
 	 */
 
 	@ManyToOne
@@ -48,8 +42,25 @@ public class LigneCommande {
 		this.pk = new IdLigneCommande();
 	}
 
+	/*
+	 * @ManyToOne
+	 * 
+	 * @JoinColumn(name="id_commandeClient") private CommandeClient commandeClient;
+	 */
+
+	public LigneCommande(Produit produit,CommandeClient commande, int qte) {
+		super();
+		this.pk = new IdLigneCommande(produit, commande);
+		this.quantite = qte;
+	}
+
 	public Avoir getAvoir() {
 		return avoir;
+	}
+	
+	@Transient
+	public CommandeClient getCommandeClient() {
+		return pk.getCommandeClient();
 	}
 
 	public CommandeCooperative getCommandeCooperative() {
@@ -60,12 +71,25 @@ public class LigneCommande {
 		return panier;
 	}
 
+	public IdLigneCommande getPk() {
+		return pk;
+	}
+
+	@Transient
+	public Produit getProduit() {
+		return pk.getProduit();
+	}
+
 	public int getQuantite() {
 		return quantite;
 	}
 
 	public void setAvoir(Avoir avoir) {
 		this.avoir = avoir;
+	}
+
+	public void setCommandeClient(CommandeClient commandeClient) {
+		pk.setCommandeClient(commandeClient);
 	}
 
 	public void setCommandeCooperative(CommandeCooperative commandeCooperative) {
@@ -76,25 +100,15 @@ public class LigneCommande {
 		this.panier = panier;
 	}
 
-	public void setQuantite(int quantite) {
-		this.quantite = quantite;
-	}
-
-	@Transient
-	public Produit getProduit() {
-		return pk.getProduit();
-	}
-
-	@Transient
-	public CommandeClient getCommandeClient() {
-		return pk.getCommandeClient();
+	public void setPk(IdLigneCommande pk) {
+		this.pk = pk;
 	}
 
 	public void setProduit(Produit produit) {
 		pk.setProduit(produit);
 	}
 
-	public void setCommande(CommandeClient commandeClient) {
-		pk.setCommandeClient(commandeClient);
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
 	}
 }

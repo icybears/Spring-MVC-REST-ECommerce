@@ -15,7 +15,7 @@ public class CommandeClientDaoImpl extends CrudGenericDaoImpl<CommandeClient> im
 	@Override
 	public Set<LigneCommande> getLigneCommandes(int idCommande) {
 		
-		String query = "from LigneCommande as lc where lc.pk.commandeClient.id_commande = :id_commande";
+		String query = "FROM LigneCommande as lc WHERE lc.pk.commandeClient.id = :id_commande";
 		Session session = this.getCurrentSession();
 		
 		Set<LigneCommande> ligneCommandes =
@@ -23,5 +23,16 @@ public class CommandeClientDaoImpl extends CrudGenericDaoImpl<CommandeClient> im
 		return ligneCommandes;
 		
 	}
+
+	@Override
+	public Set<CommandeClient> getCommandeClientByEtat(int idEtat) {
+		String query ="FROM CommandeClient as cc WHERE cc.etat.id = :id";
+		
+		Session session = this.getCurrentSession();
+		
+		return new HashSet<CommandeClient>(session.createQuery(query).setParameter("id", idEtat).list());
+	}
+	
+	
 
 }
