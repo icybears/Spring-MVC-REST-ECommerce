@@ -10,6 +10,6 @@ public interface ICommandeClientService {
 	
 	double getPrixTotal(int idCommande);
 	
-	void saveCommande(Panier panier, Client c);
+	CommandeClient saveCommande(Panier panier, Client c);
 	
 }

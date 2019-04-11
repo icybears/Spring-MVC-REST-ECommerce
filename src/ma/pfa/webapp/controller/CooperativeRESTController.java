@@ -96,12 +96,4 @@ public class CooperativeRESTController {
 	}
 	
 	
-//	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-//	public ResponseEntity<Cooperative> show(@PathVariable("id") int id) {
-//		Cooperative cooperative = coopDao.findById(id);
-//		if (cooperative == null)
-//			return new ResponseEntity(HttpStatus.NOT_FOUND);
-//		else
-//			return new ResponseEntity<Cooperative>(cooperative, HttpStatus.OK);
-//	}
 }
