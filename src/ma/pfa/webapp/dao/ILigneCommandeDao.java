@@ -10,6 +10,5 @@ public interface ILigneCommandeDao extends ICrudGenericDao<LigneCommande>{
 	IdLigneCommande saveLigne(LigneCommande lc);
 	
 	LigneCommande findByIdLigne(IdLigneCommande id);
-
 	
 }

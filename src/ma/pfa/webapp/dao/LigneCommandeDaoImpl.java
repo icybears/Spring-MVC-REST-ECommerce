@@ -2,6 +2,8 @@ package ma.pfa.webapp.dao;
 
 
 
+import java.util.Set;
+
 import org.springframework.stereotype.Repository;
 
 import ma.pfa.webapp.model.IdLigneCommande;
@@ -28,4 +30,7 @@ public class LigneCommandeDaoImpl extends CrudGenericDaoImpl<LigneCommande> impl
 		this.saveLigne(lc);
 		return 1;
 	}
+	
+
+
 }

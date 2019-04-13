@@ -8,14 +8,17 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import ma.pfa.webapp.dao.IAvoirDao;
 import ma.pfa.webapp.dao.ICommandeClientDao;
 import ma.pfa.webapp.dao.IEtatDao;
 import ma.pfa.webapp.dao.ILigneCommandeDao;
 import ma.pfa.webapp.dao.IProduitDao;
+import ma.pfa.webapp.model.Avoir;
 import ma.pfa.webapp.model.CommandeClient;
 import ma.pfa.webapp.model.Etat;
 import ma.pfa.webapp.model.IdLigneCommande;
@@ -39,6 +42,9 @@ class CommandeClientDaoImplTest {
 	@Autowired
 	private ILigneCommandeDao lcDao;
 
+	@Autowired
+	private IAvoirDao avoirDao;
+	
 	@Test
 	@Disabled
 	void testEtatCommandeClient() {
@@ -94,6 +100,7 @@ class CommandeClientDaoImplTest {
 	}
 
 	@Test
+	@Disabled
 	void crudCommande() {
 		CommandeClient cmd = new CommandeClient();
 		int idCmd = comDao.save(cmd);
@@ -118,5 +125,30 @@ class CommandeClientDaoImplTest {
 	}
 	
 
+	@Test
+	void testCommandeClientAvoir() {
+		// creation de la commande
+		CommandeClient cmd = new CommandeClient();
+		int idCmd = comDao.save(cmd);
+		CommandeClient cmdEntity = comDao.findById(idCmd);
+		//creation de lignes de commandes
+		Produit prodEntity = prodDao.findById(prodDao.save(new Produit("prod 9304P30", 240)));
+		cmdEntity.addLigneCommande(new LigneCommande(prodEntity, cmdEntity, 7));
+		
+		prodEntity = prodDao.findById(prodDao.save(new Produit("prod 7632D2DKL", 330)));
+		cmdEntity.addLigneCommande(new LigneCommande(prodEntity, cmdEntity, 4));
+		
+		
+		cmdEntity = comDao.update(cmdEntity);
+		
+		LigneCommande lcEntity = lcDao.findByIdLigne(new IdLigneCommande(prodEntity, cmdEntity));
+		Avoir avoir = new Avoir(3);
+		avoir.addLigneCommande(lcEntity);
+		
+		avoirDao.save(avoir);
+		
+		assertEquals(5,lcDao.findByIdLigne(new IdLigneCommande(prodEntity, cmdEntity)).getAvoir().getQuantite());
+		
+	}
 
 }
