@@ -21,7 +21,8 @@
 			authentication-failure-url="/login?error=true"
 			username-parameter="userName" password-parameter="password"
 			default-target-url="/index" />
-
+		<!-- cors -->
+		<cors/>
 	</http>
 
 	<authentication-manager>
@@ -34,6 +35,9 @@
 				WHERE user.userName = ? AND user.id = user_role.user_id " />
 		</authentication-provider>
 	</authentication-manager>
+	
+	
+	
 </beans:beans>
                            
                        

@@ -29,7 +29,7 @@ public class Produit {
 	private String description;
 	private double prix;
 
-	@JsonBackReference
+	
 	@ManyToOne
 	@JoinColumn(name = "id_categorie")
 	private Categorie categorie;
@@ -48,7 +48,7 @@ public class Produit {
 //	 @OneToMany(mappedBy="pk.produit")
 //	private Set<LigneCommande> ligneCommandes = new HashSet<LigneCommande>();
 
-	@JsonBackReference
+	
 	@ManyToOne
 	@JoinColumn(name = "id_cooperative")
 	private Cooperative cooperative;

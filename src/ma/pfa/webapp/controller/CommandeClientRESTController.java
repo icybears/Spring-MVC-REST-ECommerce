@@ -16,30 +16,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ma.pfa.webapp.dao.ICommandeClientDao;
 import ma.pfa.webapp.model.CommandeClient;
 import ma.pfa.webapp.model.Etat;
 import ma.pfa.webapp.model.LigneCommande;
-import ma.pfa.webapp.model.Produit;
+import ma.pfa.webapp.service.ICommandeClientService;
 
 @RestController
-@Transactional
 @RequestMapping("api/v1")
 public class CommandeClientRESTController {
 
 	@Autowired
-	private ICommandeClientDao cmdDao;
+	private ICommandeClientService cmdService;
 	
 	
 	
 	@GetMapping("/commandes-clients")
 	public List<CommandeClient> index() {
-		return cmdDao.findAll();
+		return cmdService.getAll();
 	}
 	
 	@GetMapping("/commandes-clients/{id}")
 	public ResponseEntity<CommandeClient> read(@PathVariable("id") int id) {
-		CommandeClient cmd = cmdDao.findById(id);
+		CommandeClient cmd = cmdService.getById(id);
 		if(cmd == null) {
 			 return new ResponseEntity<CommandeClient>(HttpStatus.NOT_FOUND);
 		} else {
@@ -49,35 +47,35 @@ public class CommandeClientRESTController {
 	
 	@PostMapping("/commandes-clients")
 	public int create(@RequestBody CommandeClient cmd) {
-		return cmdDao.save(cmd);
+		return cmdService.add(cmd);
 	}
 	
 	@PutMapping("/commandes-clients/{id}")
 	public CommandeClient update(@PathVariable("id") int id,@RequestBody CommandeClient cmd) {
-		return cmdDao.update(cmd);
+		return cmdService.edit(cmd);
 	}
 	
 	@DeleteMapping("/commandes-clients/{id}")
 	public void delete(@PathVariable("id") int id) {
-		CommandeClient cmd = cmdDao.findById(id);
-		cmdDao.delete(cmd);
+		CommandeClient cmd = cmdService.getById(id);
+		cmdService.remove(cmd);
 	}
 	
 	/* Mettre à jours l'etat de la commande */
 	@PutMapping("/commandes-clients/{id}/etat")
 	public CommandeClient updateEtat(@PathVariable("id") int id,@RequestBody Etat etat) {
 		
-		CommandeClient cmd = cmdDao.findById(id);
+		CommandeClient cmd = cmdService.getById(id);
 		cmd.setEtat(etat);
 		
-		return cmdDao.update(cmd);
+		return cmdService.edit(cmd);
 	}
 	
 	/*Afficher les lignes de commandes */
 	
 	@GetMapping("/commandes-clients/{id}/lignes-de-commandes")
 	public Set<LigneCommande> getLignes(@PathVariable("id") int id){
-		return cmdDao.getLigneCommandes(id);
+		return cmdService.getAllLigneCommande(id);
 	}
 	
 	

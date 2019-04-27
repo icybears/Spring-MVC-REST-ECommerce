@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ class ProduitDaoImplTest {
 	private IMatierePremiereDao mpDao;
 	
 	@Test
+	@Disabled
 	void testCrud() {
 		
 		Produit p1 = new Produit("p1", 130);
@@ -67,6 +69,7 @@ class ProduitDaoImplTest {
 	}
 	
 	@Test
+	@Disabled
 	void testProduit() {
 		
 		Produit p1 = new Produit("p1",150);
@@ -108,6 +111,7 @@ class ProduitDaoImplTest {
 	}
 	
 	@Test
+	@Disabled
 	void testProduitMatieresPremieres() {
 		Produit prod = new Produit("P1",100);
 		Produit prodEntity =produitDao.findById(produitDao.save(prod));
@@ -119,5 +123,9 @@ class ProduitDaoImplTest {
 		assertEquals(2,prodEntity.getMatieresPremieres().size());
 	}
 	
+	@Test
+	void getProduitsByMatierePremiere() {
+		assertEquals(5,produitDao.getProduitsByMatierePremiere(8).size());
+	}
 
 }

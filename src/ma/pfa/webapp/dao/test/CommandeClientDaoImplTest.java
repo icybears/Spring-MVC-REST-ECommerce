@@ -147,7 +147,7 @@ class CommandeClientDaoImplTest {
 		
 		avoirDao.save(avoir);
 		
-		assertEquals(5,lcDao.findByIdLigne(new IdLigneCommande(prodEntity, cmdEntity)).getAvoir().getQuantite());
+		assertEquals(3,lcDao.findByIdLigne(new IdLigneCommande(prodEntity, cmdEntity)).getAvoir().getQuantite());
 		
 	}
 

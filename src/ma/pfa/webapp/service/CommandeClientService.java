@@ -1,6 +1,7 @@
 package ma.pfa.webapp.service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ma.pfa.webapp.dao.IClientDao;
 import ma.pfa.webapp.dao.ICommandeClientDao;
-import ma.pfa.webapp.dao.ILigneCommandeDao;
 import ma.pfa.webapp.model.Client;
 import ma.pfa.webapp.model.CommandeClient;
 import ma.pfa.webapp.model.LigneCommande;
@@ -27,10 +27,34 @@ public class CommandeClientService implements ICommandeClientService{
 		@Autowired
 		private IClientDao clDao;
 		
-	    public CommandeClient findById(int idEntity){
-	    	return  cmdDao.findById(idEntity);
+		@Override
+		public int add(CommandeClient cmd) {
+			return cmdDao.save(cmd);
+		}
+		@Override
+	    public CommandeClient getById(int idCmd){
+	    	return  cmdDao.findById(idCmd);
 	    }
 		
+		@Override
+	    public List<CommandeClient> getAll() {
+	    	return cmdDao.findAll();
+	    }
+		
+		@Override
+		public CommandeClient edit(CommandeClient cmd) {
+			return cmdDao.update(cmd);
+		}
+		
+		@Override
+		public void remove(CommandeClient cmd) {
+			cmdDao.delete(cmd);
+		}
+		
+		@Override
+		public Set<LigneCommande> getAllLigneCommande(int idCmd){
+			return cmdDao.getLigneCommandes(idCmd);
+		}
 		
 		@Override
 		public double getPrixTotal(int idCommande) {
@@ -71,6 +95,7 @@ public class CommandeClientService implements ICommandeClientService{
 			
 		}
 
+	
 	}
 
 	
