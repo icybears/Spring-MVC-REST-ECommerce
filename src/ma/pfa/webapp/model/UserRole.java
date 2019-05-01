@@ -14,7 +14,7 @@ public class UserRole {
 	@Id
 	private Long roleId;
 	
-	@OneToOne
+	@OneToOne 
     @JoinColumn
     @MapsId
     private User user;

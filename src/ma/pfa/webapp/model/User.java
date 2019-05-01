@@ -17,7 +17,7 @@ public class User {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private UserRole userRole;
 
-	private String email;
+	private String userName;
 
 	private String password;
 	
@@ -25,9 +25,9 @@ public class User {
 		super();
 	}
 	
-	public User(String email, String password) {
+	public User(String userName, String password) {
 		super();
-		this.email = email;
+		this.userName = userName;
 		this.password = password;
 	}
 
@@ -39,8 +39,8 @@ public class User {
 		return password;
 	}
 
-	public String getemail() {
-		return email;
+	public String getUserName() {
+		return userName;
 	}
 
 	public UserRole getUserRole() {
@@ -55,8 +55,8 @@ public class User {
 		this.password = password;
 	}
 
-	public void setemail(String email) {
-		this.email = email;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public void setUserRole(UserRole userRole) {
