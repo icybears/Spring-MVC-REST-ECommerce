@@ -11,8 +11,7 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" metadata-comp
 <context-param>
 	<param-name>contextConfigLocation</param-name>
 	<param-value>
-		/WEB-INF/appContext.xml,
-		/WEB-INF/appSecurity.xml
+		/WEB-INF/appContext.xml
 	</param-value>
 </context-param>
 <filter>
