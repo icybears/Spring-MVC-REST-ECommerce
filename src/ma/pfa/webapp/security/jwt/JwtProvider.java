@@ -1,6 +1,8 @@
 package ma.pfa.webapp.security.jwt;
 
 import io.jsonwebtoken.*;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +24,7 @@ public class JwtProvider {
     @Value("${security.jwtExpiration}")
     private int jwtExpiration;
 
-    @SuppressWarnings("deprecation")
+    
 	public String generateJwtToken(Authentication authentication) {
 
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
@@ -35,7 +37,7 @@ public class JwtProvider {
 		                .compact();
     }
     
-    @SuppressWarnings("deprecation")
+    
 	public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);

@@ -1,7 +1,9 @@
 package ma.pfa.webapp.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,6 +22,7 @@ import ma.pfa.webapp.security.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan("ma.pfa.webapp")
 @EnableGlobalMethodSecurity(
 		prePostEnabled = true
 )
@@ -58,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/v1/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
