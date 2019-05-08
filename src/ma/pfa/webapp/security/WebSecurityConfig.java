@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -27,7 +28,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import ma.pfa.webapp.security.jwt.JwtAuthEntryPoint;
 import ma.pfa.webapp.security.jwt.JwtAuthTokenFilter;
-import ma.pfa.webapp.security.services.UserDetailsServiceImpl;
+
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +38,7 @@ import ma.pfa.webapp.security.services.UserDetailsServiceImpl;
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private JwtAuthEntryPoint unauthorizedHandler;

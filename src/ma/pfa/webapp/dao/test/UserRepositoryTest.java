@@ -11,7 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import ma.pfa.webapp.dao.UserRepository;
+import ma.pfa.webapp.dao.IUserDao;
+
 import ma.pfa.webapp.model.User;
 
 @ExtendWith(SpringExtension.class)
@@ -20,14 +21,14 @@ import ma.pfa.webapp.model.User;
 class UserRepositoryTest {
 
 	@Autowired
-	private UserRepository userRepo;
+	private IUserDao userRepo;
 	
 	@Test
 	void test() {
 		assertEquals(2,userRepo.findAll().size());
-		Optional<User> userEntity = userRepo.findById(new Long(1));
-		assertEquals("saber",userEntity.get().getName());
-		assertEquals("saber",userRepo.findByUsername("saber23").get().getName());
+		User userEntity = userRepo.findById(1);
+		assertEquals("saber",userEntity.getName());
+		assertEquals("saber",userRepo.findByUsername("saber23").getName());
 	}
 
 }

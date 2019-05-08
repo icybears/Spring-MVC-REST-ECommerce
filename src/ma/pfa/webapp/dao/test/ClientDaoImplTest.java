@@ -15,7 +15,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import ma.pfa.webapp.dao.IClientDao;
-import ma.pfa.webapp.dao.UserRepository;
+import ma.pfa.webapp.dao.IUserDao;
+
 import ma.pfa.webapp.model.Client;
 import ma.pfa.webapp.model.User;
 
@@ -25,7 +26,7 @@ import ma.pfa.webapp.model.User;
 class ClientDaoImplTest {
 
 	@Autowired
-	private UserRepository userRepo;
+	private IUserDao userRepo;
 
 	@Autowired
 	private IClientDao clientDao;
@@ -78,8 +79,8 @@ class ClientDaoImplTest {
 		System.out.println("client id"+id);
 		Client clEntity = clientDao.findById(id);
 		
-		Optional<User> userEntity = userRepo.findById(new Long(1));
-		clEntity.setUser(userEntity.get());
+		User userEntity = userRepo.findById(1);
+		clEntity.setUser(userEntity);
 		
 		assertEquals("saber",clientDao.update(clEntity).getUser().getName());
 		

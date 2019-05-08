@@ -3,7 +3,7 @@ package ma.pfa.webapp.controller;
 import java.util.HashSet;
 import java.util.Set;
 
-
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +27,9 @@ import ma.pfa.webapp.message.response.ResponseMessage;
 import ma.pfa.webapp.model.Role;
 import ma.pfa.webapp.model.RoleName;
 import ma.pfa.webapp.model.User;
-import ma.pfa.webapp.dao.RoleRepository;
-import ma.pfa.webapp.dao.UserRepository;
+import ma.pfa.webapp.dao.IRoleDao;
+import ma.pfa.webapp.dao.IUserDao;
+
 import ma.pfa.webapp.security.jwt.JwtProvider;
 
 @CrossOrigin(maxAge = 3600)
@@ -40,10 +41,10 @@ public class AuthRestAPIs {
 	AuthenticationManager authenticationManager;
 
 	@Autowired
-	UserRepository userRepository;
+	private IUserDao userRepository;
 
 	@Autowired
-	RoleRepository roleRepository;
+	private IRoleDao roleRepository;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -66,6 +67,7 @@ public class AuthRestAPIs {
 	}
 
 	@PostMapping("/signup")
+	@Transactional
 	public ResponseEntity<?> registerUser(@RequestBody SignUpForm signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return new ResponseEntity<>(new ResponseMessage("Fail -> Username is already taken!"),

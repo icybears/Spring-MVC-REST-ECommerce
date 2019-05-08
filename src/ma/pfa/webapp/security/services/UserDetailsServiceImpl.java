@@ -1,7 +1,8 @@
 package ma.pfa.webapp.security.services;
 
 import ma.pfa.webapp.model.User;
-import ma.pfa.webapp.dao.UserRepository;
+import ma.pfa.webapp.dao.IUserDao;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,14 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	UserRepository userRepository; 
+	private IUserDao userRepository; 
 
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-		User user = userRepository.findByUsername(username).orElseThrow(
-				() -> new UsernameNotFoundException("User Not Found with -> username or email : " + username));
+		
+		User user = userRepository.findByUsername(username);
+				if(user == null)
+				throw new UsernameNotFoundException("User Not Found with -> username or email : " + username);
 
 		return UserPrinciple.build(user);
 	}

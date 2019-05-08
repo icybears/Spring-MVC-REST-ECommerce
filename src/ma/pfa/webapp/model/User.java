@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class User{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
   
     private String name;
@@ -45,7 +45,7 @@ public class User{
     private String email;
     
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
+            fetch = FetchType.LAZY, optional = true)
     @JsonIgnore
     private Client client;
 
@@ -74,7 +74,7 @@ public class User{
 	public String getEmail() {
         return email;
     }
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -109,7 +109,7 @@ public class User{
         this.email = email;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
