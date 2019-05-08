@@ -31,7 +31,7 @@ import ma.pfa.webapp.dao.RoleRepository;
 import ma.pfa.webapp.dao.UserRepository;
 import ma.pfa.webapp.security.jwt.JwtProvider;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthRestAPIs {

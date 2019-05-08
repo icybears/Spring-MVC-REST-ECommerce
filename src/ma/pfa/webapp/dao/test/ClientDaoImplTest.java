@@ -1,19 +1,23 @@
 package ma.pfa.webapp.dao.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-import ma.pfa.webapp.dao.IClientDao;
-import ma.pfa.webapp.model.Client;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import ma.pfa.webapp.dao.IClientDao;
+import ma.pfa.webapp.dao.UserRepository;
+import ma.pfa.webapp.model.Client;
+import ma.pfa.webapp.model.User;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath*:**/appContextTest.xml" })
@@ -21,11 +25,13 @@ import org.junit.jupiter.api.Test;
 class ClientDaoImplTest {
 
 	@Autowired
+	private UserRepository userRepo;
+
+	@Autowired
 	private IClientDao clientDao;
 
 	static Client cl;
-	 static Client cl2;
-	
+	static Client cl2;
 
 	@BeforeAll
 	static void setUp() throws Exception {
@@ -36,27 +42,49 @@ class ClientDaoImplTest {
 	}
 
 	@Test
+	@Disabled
 	public void testSaveAndFindAll() {
-		
+
 		clientDao.save(cl);
 		clientDao.save(cl2);
 		assertEquals(2, clientDao.findAll().size());
 	}
-	
+
 	@Test
 	public void testFindById() {
 		int id = clientDao.save(cl);
-		
-		assertEquals("Client 1",clientDao.findById(id).getNom());
+
+		assertEquals("Client 1", clientDao.findById(id).getNom());
 	}
-	
-	@Test 
+
+	@Test
 	public void testUpdate() {
 		int id = clientDao.save(cl);
-		
+
 		Client clEntity = clientDao.findById(id);
 		clEntity.setNom("Updated client");
+
+		assertEquals("Updated client", clientDao.update(clEntity).getNom());
+	}
+
+	@Test
+	@Rollback(false)
+	public void testUser() {
+		cl.setEmail("saber@gmail.com");
+		cl.setAdresse("Avenue ABC, Agadir");
+		cl.setNom("Ibr");
+		cl.setPrenom("Saber");
+		int id = clientDao.save(cl);
+		System.out.println("client id"+id);
+		Client clEntity = clientDao.findById(id);
 		
-		assertEquals("Updated client",clientDao.update(clEntity).getNom());
+		Optional<User> userEntity = userRepo.findById(new Long(1));
+		clEntity.setUser(userEntity.get());
+		
+		assertEquals("saber",clientDao.update(clEntity).getUser().getName());
+		
+		
+
+		
 	}
 }

@@ -4,10 +4,13 @@ import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,11 +33,13 @@ public class Client {
 
 	private String email;
 	
+	@OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+	
 	@OneToMany(mappedBy="client")
 	@JsonIgnore
 	Set<CommandeClient> commandeClient =new HashSet<>();
-	
-	//Constructors
 
 	/**
 	 * 
@@ -62,62 +67,72 @@ public class Client {
 		this.commandeClient = commandeClient;
 	}
 	
+	//Constructors
+
+	public String getAdresse() {
+		return adresse;
+	}
+
+	public Set<CommandeClient> getCommandeClient() {
+		return commandeClient;
+	}
 	
+	
+	public String getEmail() {
+		return email;
+	}
+
 	//getters and setters
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getNom() {
 		return nom;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
 	public String getPrenom() {
 		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public String getAdresse() {
-		return adresse;
-	}
-
-	public void setAdresse(String adresse) {
-		this.adresse = adresse;
 	}
 
 	public String getTel() {
 		return tel;
 	}
 
-	public void setTel(String tel) {
-		this.tel = tel;
+	public User getUser() {
+		return user;
 	}
 
-	public String getEmail() {
-		return email;
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+
+	public void setCommandeClient(Set<CommandeClient> commandeClient) {
+		this.commandeClient = commandeClient;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public Set<CommandeClient> getCommandeClient() {
-		return commandeClient;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setCommandeClient(Set<CommandeClient> commandeClient) {
-		this.commandeClient = commandeClient;
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }
