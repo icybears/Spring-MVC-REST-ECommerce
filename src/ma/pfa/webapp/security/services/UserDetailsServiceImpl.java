@@ -26,4 +26,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		return UserPrinciple.build(user);
 	}
+	
+	
 }

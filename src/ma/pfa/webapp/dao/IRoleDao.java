@@ -7,5 +7,5 @@ import ma.pfa.webapp.model.RoleName;
 
 
 public interface IRoleDao extends ICrudGenericDao<Role>{
-	Optional<Role> findByName(RoleName roleName);
+	Role findByName(RoleName roleName);
 }

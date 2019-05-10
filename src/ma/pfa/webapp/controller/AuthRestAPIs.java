@@ -20,16 +20,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ma.pfa.webapp.dao.IClientDao;
+import ma.pfa.webapp.dao.IRoleDao;
+import ma.pfa.webapp.dao.IUserDao;
 import ma.pfa.webapp.message.request.LoginForm;
 import ma.pfa.webapp.message.request.SignUpForm;
 import ma.pfa.webapp.message.response.JwtResponse;
 import ma.pfa.webapp.message.response.ResponseMessage;
+import ma.pfa.webapp.model.Client;
 import ma.pfa.webapp.model.Role;
 import ma.pfa.webapp.model.RoleName;
 import ma.pfa.webapp.model.User;
-import ma.pfa.webapp.dao.IRoleDao;
-import ma.pfa.webapp.dao.IUserDao;
-
 import ma.pfa.webapp.security.jwt.JwtProvider;
 
 @CrossOrigin(maxAge = 3600)
@@ -45,6 +46,9 @@ public class AuthRestAPIs {
 
 	@Autowired
 	private IRoleDao roleRepository;
+	
+	@Autowired
+	private IClientDao clDao;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -80,7 +84,7 @@ public class AuthRestAPIs {
 		}
 
 		// Creating user's account
-		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
@@ -89,26 +93,43 @@ public class AuthRestAPIs {
 		strRoles.forEach(role -> {
 			switch (role) {
 			case "admin":
-				Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+				Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN);
+
+				if (adminRole == null)
+					throw new RuntimeException("Fail! -> Cause: User Role not found.");
+
 				roles.add(adminRole);
 
 				break;
 			case "pm":
-				Role pmRole = roleRepository.findByName(RoleName.ROLE_PM)
-						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+				Role pmRole = roleRepository.findByName(RoleName.ROLE_PM);
+				if (pmRole == null)
+					throw new RuntimeException("Fail! -> Cause: User Role not found.");
 				roles.add(pmRole);
 
 				break;
 			default:
-				Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+				Role userRole = roleRepository.findByName(RoleName.ROLE_USER);
+				if (userRole == null)
+					throw new RuntimeException("Fail! -> Cause: User Role not found.");
 				roles.add(userRole);
 			}
 		});
 
 		user.setRoles(roles);
-		userRepository.save(user);
+		int id = userRepository.save(user);
+		System.out.println(id);
+		// creating client object
+		Client client = new Client();
+		client.setAdresse(signUpRequest.getAdresse());
+		client.setNom(signUpRequest.getNom());
+		client.setPrenom(signUpRequest.getPrenom());
+		client.setTel(signUpRequest.getTelephone());
+		client.setEmail(signUpRequest.getEmail());
+		client.setUser(userRepository.findById(id));
+		clDao.save(client);
+		
+		
 
 		return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
 	}

@@ -38,8 +38,9 @@ public class UserDaoImpl extends CrudGenericDaoImpl<User> implements IUserDao{
 		List<User> results =session.createQuery(query,User.class).setParameter("id",id).getResultList();
 		User user = null;
 		if(!results.isEmpty()){
-		    System.out.println("user is: "+user.getUsername());
+		    
 		    user = results.get(0); 
+		    System.out.println("user is: "+user.getUsername());
 		}
 		return user;
 	}

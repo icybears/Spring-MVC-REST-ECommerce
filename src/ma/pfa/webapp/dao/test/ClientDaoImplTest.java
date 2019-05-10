@@ -79,10 +79,10 @@ class ClientDaoImplTest {
 		System.out.println("client id"+id);
 		Client clEntity = clientDao.findById(id);
 		
-		User userEntity = userRepo.findById(1);
+		User userEntity = userRepo.findByUsername("saber23");
 		clEntity.setUser(userEntity);
 		
-		assertEquals("saber",clientDao.update(clEntity).getUser().getName());
+		assertEquals("saber",clientDao.update(clEntity).getUser().getUsername());
 		
 		
 

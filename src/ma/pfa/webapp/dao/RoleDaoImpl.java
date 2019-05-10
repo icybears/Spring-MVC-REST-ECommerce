@@ -16,7 +16,7 @@ import ma.pfa.webapp.model.RoleName;
 public class RoleDaoImpl extends CrudGenericDaoImpl<Role> implements IRoleDao{
 
 	@Override
-	public Optional<Role> findByName(RoleName roleName) {
+	public Role findByName(RoleName roleName) {
 		Session session = this.getCurrentSession();
 		String query = "FROM Role r WHERE r.name = :rolename";
 		
@@ -27,7 +27,7 @@ public class RoleDaoImpl extends CrudGenericDaoImpl<Role> implements IRoleDao{
 		    role = results.get(0);
 		}
 		
-		return Optional.of(role);
+		return role;
 	}
 
 }
