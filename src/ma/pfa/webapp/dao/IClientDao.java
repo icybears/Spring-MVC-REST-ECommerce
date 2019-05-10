@@ -5,4 +5,6 @@ import ma.pfa.webapp.model.Client;
 public interface IClientDao extends ICrudGenericDao<Client> {
 
 	Client getClientByUserId(int id);
+
+	Client getClientByUsername(String name);
 }

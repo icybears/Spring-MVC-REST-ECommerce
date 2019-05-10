@@ -10,26 +10,39 @@ import org.springframework.stereotype.Repository;
 
 import ma.pfa.webapp.model.Client;
 
-
 @Repository
 public class ClientDaoImpl extends CrudGenericDaoImpl<Client> implements IClientDao {
 
 	@Override
 	public Client getClientByUserId(int id) {
-		
+
 		Session session = this.getCurrentSession();
 		String query = "FROM Client c WHERE c.user.id = :id";
-		
-		List<Client> results =session.createQuery(query,Client.class).setParameter("id",id).getResultList();
+
+		List<Client> results = session.createQuery(query, Client.class).setParameter("id", id).getResultList();
 		Client client = null;
-		if(!results.isEmpty()){
-		    
-		    client = results.get(0); 
-		    
+		if (!results.isEmpty()) {
+
+			client = results.get(0);
+
 		}
 		return client;
 	}
 
-	
+	@Override
+	public Client getClientByUsername(String name) {
+
+		Session session = this.getCurrentSession();
+		String query = "FROM Client c WHERE c.user.username = :name";
+
+		List<Client> results = session.createQuery(query, Client.class).setParameter("name", name).getResultList();
+		Client client = null;
+		if (!results.isEmpty()) {
+
+			client = results.get(0);
+
+		}
+		return client;
+	}
 
 }

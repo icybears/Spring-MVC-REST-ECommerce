@@ -117,17 +117,18 @@ public class AuthRestAPIs {
 		});
 
 		user.setRoles(roles);
-		int id = userRepository.save(user);
-		System.out.println(id);
-		// creating client object
+		
+		//creating client object
 		Client client = new Client();
 		client.setAdresse(signUpRequest.getAdresse());
 		client.setNom(signUpRequest.getNom());
 		client.setPrenom(signUpRequest.getPrenom());
 		client.setTel(signUpRequest.getTelephone());
 		client.setEmail(signUpRequest.getEmail());
-		client.setUser(userRepository.findById(id));
-		clDao.save(client);
+		
+		user.setClient(client);
+		userRepository.save(user);
+		
 		
 		
 

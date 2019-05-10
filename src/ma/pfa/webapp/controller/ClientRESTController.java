@@ -1,11 +1,15 @@
 package ma.pfa.webapp.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ma.pfa.webapp.dao.IClientDao;
 
 import ma.pfa.webapp.model.Client;
-import ma.pfa.webapp.model.Produit;
+
+import ma.pfa.webapp.model.User;
 
 
 @RestController
@@ -32,9 +37,19 @@ public class ClientRESTController {
 	private IClientDao clDao;
 	
 	
-	@PostMapping("/auth")
-	public void auth() {
+	
+	@GetMapping("/profile")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public ResponseEntity<Client> profile(Authentication authentication) {
 		
+        Client cl = clDao.getClientByUsername(authentication.getName());
+        
+        if(cl == null) {
+			 return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Client>(cl,HttpStatus.OK);
+		}
+    
 	}
 	
 	@GetMapping("/clients")
@@ -58,8 +73,22 @@ public class ClientRESTController {
 	}
 	
 	@PutMapping("/clients/{id}")
-	public Client update(@PathVariable("id") int id,@RequestBody Client cl) {
-		return clDao.update(cl);
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public ResponseEntity<Client> update(@PathVariable("id") int id,@RequestBody Client cl,Authentication authentication) {
+		
+		Client authenticatedClient = clDao.getClientByUsername(authentication.getName());
+		User userHandle = authenticatedClient.getUser();
+		Client requestClient = clDao.findById(cl.getId());
+		
+		Client client = null;
+		if(authenticatedClient.getId() == requestClient.getId()) {
+				cl.setUser(userHandle);
+			 client = clDao.update(cl);
+			return new ResponseEntity<Client>(client,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Client>(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
 	@DeleteMapping("/clients/{id}")

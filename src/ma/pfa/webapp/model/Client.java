@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -35,6 +36,7 @@ public class Client {
 	
 	@OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+	@JsonBackReference
     private User user;
 	
 	@OneToMany(mappedBy="client")
