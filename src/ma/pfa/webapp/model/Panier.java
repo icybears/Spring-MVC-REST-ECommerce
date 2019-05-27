@@ -25,6 +25,21 @@ public class Panier {
 			lc.setQuantite(lc.getQuantite() + quantite);
 	}
 	
+	public void addItem(LigneCommande ligne)
+	{
+		Produit produit = ligne.getProduit();
+		LigneCommande lc = items.get(ligne.getProduit().getId());
+		
+		if(lc==null){
+			lc = ligne;
+			
+			items.put(produit.getId(), lc);
+		}
+		
+		else
+			lc.setQuantite(lc.getQuantite() + ligne.getQuantite());
+	}
+	
 	
 	public void removeItem(int idProduit)
 	{

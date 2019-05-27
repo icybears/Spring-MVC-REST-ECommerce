@@ -81,6 +81,7 @@ public class ClientRESTController {
 		Client requestClient = clDao.findById(cl.getId());
 		
 		Client client = null;
+		//verifier si l'utilisateur connecté est le client qu'il essaye de modifier
 		if(authenticatedClient.getId() == requestClient.getId()) {
 				cl.setUser(userHandle);
 			 client = clDao.update(cl);

@@ -46,13 +46,19 @@ class CommandeClientDaoImplTest {
 	private IAvoirDao avoirDao;
 	
 	@Test
-	@Disabled
+	@Rollback(false)
 	void testEtatCommandeClient() {
 
 		Etat etat = new Etat();
 		etat.setNom("etat1");
+		
+		Etat etat2 = new Etat();
+		etat2.setNom("etat2");
 
 		int idEtat = etDao.save(etat);
+		
+		int idEtat2 = etDao.save(etat2);
+		
 		Etat etatEntity = etDao.findById(idEtat);
 
 		CommandeClient com = new CommandeClient();
@@ -64,7 +70,7 @@ class CommandeClientDaoImplTest {
 
 		assertEquals("etat1", comDao.findById(idCom).getEtat().getNom());
 
-		etatEntity = etDao.findById(2);
+		etatEntity = etDao.findById(idEtat2);
 
 		CommandeClient comEntity = comDao.findById(idCom);
 		comEntity.setEtat(etatEntity);
@@ -126,6 +132,7 @@ class CommandeClientDaoImplTest {
 	
 
 	@Test
+	@Disabled
 	void testCommandeClientAvoir() {
 		// creation de la commande
 		CommandeClient cmd = new CommandeClient();

@@ -6,6 +6,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +18,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ma.pfa.webapp.dao.IClientDao;
+import ma.pfa.webapp.message.request.PanierClient;
+import ma.pfa.webapp.model.Client;
 import ma.pfa.webapp.model.CommandeClient;
 import ma.pfa.webapp.model.Etat;
 import ma.pfa.webapp.model.LigneCommande;
+import ma.pfa.webapp.model.Panier;
+import ma.pfa.webapp.model.User;
 import ma.pfa.webapp.service.ICommandeClientService;
 
 @RestController
@@ -28,6 +35,8 @@ public class CommandeClientRESTController {
 	@Autowired
 	private ICommandeClientService cmdService;
 	
+	@Autowired
+	private IClientDao clDao;
 	
 	
 	@GetMapping("/commandes-clients")
@@ -78,6 +87,46 @@ public class CommandeClientRESTController {
 		return cmdService.getAllLigneCommande(id);
 	}
 	
-	
+	/* Enregistrer commandes depuis un panier */
+	@PostMapping("/save-commande")
+	@Transactional
+	//@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public ResponseEntity<CommandeClient> saveCommande(@RequestBody PanierClient panierClient,Authentication authentication) {
+		
+		Set<LigneCommande> items = panierClient.getItems();
+		Client client = panierClient.getClient();
+		
+		if(authentication != null) {
+			System.out.println("Client is logged in");
+			Client authenticatedClient = clDao.getClientByUsername(authentication.getName());
+			//on associe le client authentifié avec le client de la requête
+			client.setId(authenticatedClient.getId());
+			client.setUser(authenticatedClient.getUser());
+			//mettre à jours les informations du client authentifié
+			client = clDao.update(client);
+			
+		} else {
+			System.out.println("Client is a guest");
+			//on crée le nouveau client
+			client = clDao.findById(clDao.save(client));
+		}
+		System.out.println(items.size());
+		
+		Panier panier = new Panier();
+		for (LigneCommande ligne : items) {
+			panier.addItem(ligne);
+		}
+		
+		
+		CommandeClient cmd = cmdService.saveCommande(panier, client);
+		
+		
+		
+		if(cmd == null) {
+			 return new ResponseEntity<CommandeClient>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<CommandeClient>(cmd,HttpStatus.OK);
+		}
+	}
 	
 }

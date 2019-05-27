@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import ma.pfa.webapp.model.Panier;
 @Transactional
 public class CommandeClientService implements ICommandeClientService{
 
+		private static Logger logger = Logger.getLogger("commandeLog");
 		
 		@Autowired
 		private ICommandeClientDao cmdDao;
@@ -71,12 +73,12 @@ public class CommandeClientService implements ICommandeClientService{
 		@Override
 		public CommandeClient saveCommande(Panier panier, Client c) {
 			
-	
-			int clId = clDao.save(c);
+			
+
 			
 			CommandeClient commande = new CommandeClient();
 
-			commande.setClient(clDao.findById(clId));
+			commande.setClient(c);
 			
 			Set<LigneCommande> ligneCommandes = new HashSet<LigneCommande>(
 					panier.getItems().values());
@@ -89,7 +91,9 @@ public class CommandeClientService implements ICommandeClientService{
 			}
 			
 			int idCmd = cmdDao.save(commande);		
-
+			
+			System.out.println("savecommande method executed");
+			logger.info("Commande "+idCmd+" par le client "+c.getId());
 			
 			return cmdDao.findById(idCmd);
 			
