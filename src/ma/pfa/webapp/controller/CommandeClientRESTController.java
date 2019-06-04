@@ -108,6 +108,7 @@ public class CommandeClientRESTController {
 		} else {
 			System.out.println("Client is a guest");
 			//on crée le nouveau client
+			if(client != null)
 			client = clDao.findById(clDao.save(client));
 		}
 		System.out.println(items.size());
@@ -122,8 +123,8 @@ public class CommandeClientRESTController {
 		
 		
 		
-		if(cmd == null) {
-			 return new ResponseEntity<CommandeClient>(HttpStatus.NOT_FOUND);
+		if(cmd == null || client == null) {
+			 return new ResponseEntity<CommandeClient>(HttpStatus.BAD_REQUEST);
 		} else {
 			return new ResponseEntity<CommandeClient>(cmd,HttpStatus.OK);
 		}
